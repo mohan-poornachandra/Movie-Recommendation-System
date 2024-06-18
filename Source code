@@ -1,0 +1,109 @@
+import imdb
+ia=imdb.IMDb()
+movies=ia.get_top250_movies()
+
+print("*********************WELCOME TO MOVIE RECOMMENDATION SYSTEM************************")
+print("You can segregate the movies in two ways")
+print("1.By GENRE")
+print("2.By YEAR OF RELEASE")
+
+def file():
+    genre_input=input("Enter your choice from the above:")
+    f=open("top_%s_movies_list.txt"%genre_input)
+    x=f.read()
+    a=x.split(',')
+    genre={'Action':a,
+       'Comedy':a,
+       'Fantasy':a,
+       'Thriller':a,
+       'Romance':a,}
+    for i in genre:
+        if i==genre_input.capitalize():
+            print("The list of Top Movies under %s are:"%i)
+            print("********************************************************")
+            global L
+            L=list(genre.get(i))
+            for j in L:
+                print(j)
+def files():
+    year=input("Enter the year:")
+    f1=open("top_movies_%s.txt"%year)
+    x1=f1.read()
+    global L
+    L=x1.split(',')
+    for j in L:
+        print(j)
+watch_list=[]
+genres=['Action','Comedy','Fantasy','Thriller','Romance']
+user_input=input("Enter your choice of Segregation:")
+if(user_input.lower()=="genre"):
+    print("The Top Genre are:")
+    print("******************")
+    for i in genres:
+        print(i)
+    file()
+elif(user_input.lower()=="year"):
+    files()
+        
+print("--------------------------------------------------------")
+print("Make a Decision!!")
+print("Enter 1 to Watch on the go")
+print("Enter 2 to Add to your wishlist")
+decision=int(input("Enter a number:"))
+if (decision==1):
+    x=input("Enter the movie from the list:")
+    if(x not in L):
+         print("The entered movie is not found in the list”)
+    else:
+          print("Enjoy watching %s!!!"%x)
+            
+                        
+elif(decision==2):
+    x=input("Enter the movie from the list:")
+    if(x not in L):
+          print("The movie entered is not found in the above list")
+               
+        else:
+            watch_list.append(x)
+            print("Movie succesfully added to ur watchlist!!")
+            print("Your watchlist now contains:",watch_list)
+            
+print()
+print("*********AFTER WATCHING THE RECOMMENDED MOVIE HERE IS A REVIEW SYSTEM***********")
+def movie_review():
+    stars = int(input("Enter the number of stars (1 to 5) for the movie: "))
+    if stars == 1 or stars == 2 or stars == 3:
+        get_improvement_feedback()
+    elif stars == 4 or stars == 5:
+        get_positive_feedback()
+    else:
+        print("Invalid number of stars. Please enter a number between 1 and 5.")
+        movie_review()
+def get_improvement_feedback():
+    improvement_areas = ["Acting", "Plot", "Music", "Cinematography", "Pacing"]
+    print("Where can the movie improve? Select one of the following options:")
+    index = 1
+    for area in improvement_areas:
+        print(f"{index}. {area}")
+        index += 1
+    choice = int(input("Enter the number corresponding to your choice: "))
+    if 1 <= choice <= len(improvement_areas):
+        print(f"Thank you for your feedback! You think the movie can improve in: {improvement_areas[choice-1]}")
+    else:
+        print("Invalid choice. Please try again.")
+        get_improvement_feedback()
+
+def get_positive_feedback():
+    positive_aspects = ["Acting", "Plot", "Music", "Cinematography", "Pacing"]
+    print("What did you like about the movie? Select one of the following options:")
+    index = 1
+    for aspect in positive_aspects:
+        print(f"{index}. {aspect}")
+        index += 1
+    choice = int(input("Enter the number corresponding to your choice: "))
+    if 1 <= choice <= len(positive_aspects):
+        print(f"Thank you for your feedback! You liked the movie's: {positive_aspects[choice-1]}")
+    else:
+        print("Invalid choice. Please try again.")
+        get_positive_feedback()       
+movie_review()          
